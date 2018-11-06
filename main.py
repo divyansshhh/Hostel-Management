@@ -3,7 +3,7 @@ import mysql.connector
 
 mydb = mysql.connector.connect(
   host='localhost',
-  user='dc99',
+  user='admin',
   password='ifixit',
   database = 'PROJECT'
 )
@@ -14,7 +14,7 @@ app = Flask(__name__)
 @app.route("/home",methods = ['POST','GET'])
 def home():
     if not session.get('login'):
-        return render_template('login.html')
+        return render_template('login.html'),401
     else:
         return render_template('home.html',username=session.get('username'))
 
