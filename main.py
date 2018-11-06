@@ -35,7 +35,7 @@ def login():
             return redirect(url_for('home',username = session.get('username')))
     return render_template('login.html')
 
-@app.route("/show_detail",methods=['POST','GET'])
+@app.route("/show_update_detail",methods=['POST','GET'])
 def show_detail():
     if(request.method=='POST'):
         qry = "SELECT * from Student where student_id = %s" %(request.form['student_id'])
@@ -46,7 +46,11 @@ def show_detail():
         if mycursor.rowcount == -1:
             not_found = True
         fields = mycursor.column_names
-        return render_template('show_detail.html',res = res,fields = fields, not_found=not_found)
+
+        if "show" in request.form:
+            return render_template('show_detail.html',res = res,fields = fields, not_found=not_found)
+        if "update" in request.form:
+            return render_template('update_detail.html',res = res,fields = fields, not_found=not_found)
 
 @app.route("/search_detail",methods = ['POST','GET'])
 def search_detail():

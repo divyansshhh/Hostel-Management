@@ -1,0 +1,26 @@
+<!doctype HTML>
+<html>
+    <title>Update Details</title>
+    <body>
+
+        {% if not_found == True %}
+            <p>Sorry! Not Found</p>
+        {% else %}
+
+        <form action = "/update_details" method = 'POST'>
+            {% for i in range(0,fields | length) %}
+                <label><strong>{{fields[i]}}</strong></label>
+                <input type="text" name="{{fields[i]}}" value="{{res[i]}}">
+                <br>
+            {%endfor%}
+            <button type="submit" width="20%">Update Details</button>
+        </form>
+
+        {% endif %}
+        
+        <form action = "/home" method = 'POST'>
+            <button type="submit" width="20%">Back</button>
+        </form>
+        
+    </body>
+</html>

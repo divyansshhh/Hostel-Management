@@ -3,6 +3,13 @@ USE PROJECT;
 
 --TODO : Add NOT NULL CONSTRAINTS
 
+CREATE TABLE login(
+    username VARCHAR(20),
+    password VARCHAR(20)
+);
+
+INSERT INTO login VALUES ('admin','admin');
+
 CREATE TABLE Hostel(
     hostel_id INT,
     hostel_name varchar(20),
