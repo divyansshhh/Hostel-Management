@@ -1,0 +1,20 @@
+<!doctype HTML>
+<html>
+    <title>Details</title>
+    <body>
+
+        {% if not_found == True %}
+            <p>Sorry! Not Found</p>
+        {% else %}
+
+            {% for i in range(0,fields | length) %}
+                <label><strong>{{fields[i]}}</strong> : {{res[i]}}</label>
+                <br>
+            {%endfor%}
+        
+        {% endif %}
+        <form action = "/home" method = 'POST'>
+            <button type="submit">Back</button>
+        </form>
+    </body>
+</html>
