@@ -7,7 +7,7 @@ mydb = mysql.connector.connect(
   password='ifixit',
   database = 'PROJECT'
 )
-mycursor = mydb.cursor()
+mycursor = mydb.cursor(buffered=True)
 
 app = Flask(__name__)
 
@@ -55,6 +55,40 @@ def show_detail():
 @app.route("/search_detail",methods = ['POST','GET'])
 def search_detail():
     return render_template('search_detail.html')
+
+@app.route("/add_student_page",methods = ['POST','GET'])
+def add_student_page():
+    qry = "SELECT * from Student"
+    mycursor.execute(qry)
+    fields = mycursor.column_names
+    return render_template('add_student.html',fields = fields)
+
+
+# TODO : Check if valid query, or return error when invalid query
+#      : show a Success dialog
+@app.route("/add_student",methods = ['POST','GET'])
+def update_detail():
+    qry = "SELECT * from Student"
+    mycursor.execute(qry)
+    fields = mycursor.column_names
+
+    val = ()
+
+    for field in fields:
+        temp = request.form.get(field)
+        if field not in ['student_id','room_no','hostel_id'] and temp != '':
+            temp = "\'"+temp+"\'"
+        if temp == '':
+            temp = 'NULL'
+        val = val + (temp,)
+
+    qry = """INSERT INTO Student Values (%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s)"""%val
+    print(qry)
+    mycursor.execute(qry)
+    mydb.commit()
+
+    return redirect('/home')    
+
 
 @app.route("/logout", methods=['POST','GET'])
 def logout():

@@ -1,0 +1,14 @@
+<!doctype HTML>
+<html>
+    <title>Details</title>
+    <body>        
+        <form action = "/add_student" method = 'POST'>
+            {% for i in range(0,fields | length) %}
+                <label><strong>{{fields[i]}}</strong></label>
+                <input type="text" name="{{fields[i]}}">
+                <br>
+            {%endfor%}
+            <button type="submit">Add Student</button>
+        </form>
+    </body>
+</html>
