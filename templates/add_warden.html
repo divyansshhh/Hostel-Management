@@ -1,0 +1,26 @@
+<!doctype HTML>
+<html>
+    <title>Details</title>
+    <body>
+        
+        {% if error == True %}
+            ERROR
+        {% endif %}
+
+        {% if success == True %}
+            Successfully Added Warden
+        {% endif %}
+        
+        <form action = "/add_warden" method = 'POST'>
+            {% for i in range(0,fields | length) %}
+                <label><strong>{{fields[i]}}</strong></label>
+                <input type="text" name="{{fields[i]}}">
+                <br>
+            {%endfor%}
+            <button type="submit">Add Warden</button>
+        </form>
+        <form action = "/home" method = 'POST'>
+            <button type="submit">Back</button>
+        </form>
+    </body>
+</html>
