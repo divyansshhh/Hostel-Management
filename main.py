@@ -94,6 +94,158 @@ def add_detail():
     
     return render_template('/add_student.html',fields=fields,error=error,success=success)    
 
+@app.route("/add_room_page",methods = ['POST','GET'])
+def add_room_page():
+    qry = "SELECT * from Room"
+    mycursor.execute(qry)
+    fields = mycursor.column_names
+    return render_template('add_room.html',fields = fields)
+
+@app.route("/add_room", methods=['POST','GET'])
+def add_room():
+    qry = "SELECT * from Room"
+    mycursor.execute(qry)
+    fields = mycursor.column_names
+
+    val = ()
+
+    for field in fields:
+        temp = request.form.get(field)
+        if field not in ['key_no','room_no','hostel_id'] and temp != '':
+            temp = "\'"+temp+"\'"
+        if temp == '':
+            temp = 'NULL'
+        val = val + (temp,)
+
+    qry = "INSERT INTO Room Values (%s,%s,%s)"%val
+    print(qry)
+    success = True
+    error = False
+    try:
+        mycursor.execute(qry)
+    except:
+        print("Error : Room not Inserted")
+        error = True
+        success = False
+    mydb.commit()
+
+    return render_template('/add_room.html',fields=fields,error=error,success=success)
+
+
+@app.route("/add_furniture_page",methods = ['POST','GET'])
+def add_furniture_page():
+    qry = "SELECT * from Furniture"
+    mycursor.execute(qry)
+    fields = mycursor.column_names
+    return render_template('add_furniture.html',fields = fields)
+
+@app.route("/add_furniture", methods=['POST','GET'])
+def add_furniture():
+    qry = "SELECT * from Furniture"
+    mycursor.execute(qry)
+    fields = mycursor.column_names
+
+    val = ()
+
+    for field in fields:
+        temp = request.form.get(field)
+        if field not in ['furniture_id','room_no','hostel_id'] and temp != '':
+            temp = "\'"+temp+"\'"
+        if temp == '':
+            temp = 'NULL'
+        val = val + (temp,)
+
+    qry = "INSERT INTO Furniture Values (%s,%s,%s,%s)"%val
+
+    print(qry)
+    success = True
+    error = False
+    try:
+        mycursor.execute(qry)
+    except:
+        print("Error : Furniture not Inserted")
+        error = True
+        success = False
+    mydb.commit()
+
+    return render_template('/add_furniture.html',fields=fields,error=error,success=success)
+
+
+@app.route("/add_warden_page",methods = ['POST','GET'])
+def add_warden_page():
+    qry = "SELECT * from Warden"
+    mycursor.execute(qry)
+    fields = mycursor.column_names
+    return render_template('add_warden.html',fields = fields)
+
+@app.route("/add_warden", methods=['POST','GET'])
+def add_warden():
+    qry = "SELECT * from Warden"
+    mycursor.execute(qry)
+    fields = mycursor.column_names
+
+    val = ()
+
+    for field in fields:
+        temp = request.form.get(field)
+        if field not in ['warden_of','warden_id'] and temp != '':
+            temp = "\'"+temp+"\'"
+        if temp == '':
+            temp = 'NULL'
+        val = val + (temp,)
+
+    qry = "INSERT INTO Warden Values (%s,%s,%s,%s)"%val
+
+    print(qry)
+    success = True
+    error = False
+    try:
+        mycursor.execute(qry)
+    except:
+        print("Error : Warden not Inserted")
+        error = True
+        success = False
+    mydb.commit()
+
+    return render_template('/add_warden.html',fields=fields,error=error,success=success)
+
+@app.route("/add_hostel_page",methods = ['POST','GET'])
+def add_hostel_page():
+    qry = "SELECT * from Hostel"
+    mycursor.execute(qry)
+    fields = mycursor.column_names
+    return render_template('add_hostel.html',fields = fields)
+
+@app.route("/add_hostel", methods=['POST','GET'])
+def add_hostel():
+    qry = "SELECT * from Hostel"
+    mycursor.execute(qry)
+    fields = mycursor.column_names
+
+    val = ()
+
+    for field in fields:
+        temp = request.form.get(field)
+        if field not in ['hostel_id'] and temp != '':
+            temp = "\'"+temp+"\'"
+        if temp == '':
+            temp = 'NULL'
+        val = val + (temp,)
+
+    qry = "INSERT INTO Hostel Values (%s,%s)"%val
+
+    print(qry)
+    success = True
+    error = False
+    try:
+        mycursor.execute(qry)
+    except:
+        print("Error : Hostel not Inserted")
+        error = True
+        success = False
+    mydb.commit()
+
+    return render_template('/add_hostel.html',fields=fields,error=error,success=success)
 
 @app.route("/logout", methods=['POST','GET'])
 def logout():

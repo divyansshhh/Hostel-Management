@@ -19,13 +19,24 @@
 			</form>
 		</div>
 		<br>
-		<label>Something More</label>
+		<label>Add Hostel/Room/Furniture/Warden</label>
 		<div class="btn-group" style="width:100%">
-		  <button style="width:24%">---</button>
-		  <button style="width:24%">---</button>
-		  <button style="width:24%">---</button>
-		  <button style="width:24%">---</button>
-		</div> 
+			<form action="/add_hostel_page" method="POST">
+				<button style="width:33%" type="submit">Add Hostel</button>
+			</form>
+		  	
+		  	<form action="/add_room_page" method="POST">
+				<button style="width:33%" type="submit">Add Room</button>
+			</form>
+		  	
+		  	<form action="/add_furniture_page" method="POST">
+				<button style="width:33%" type="submit">Add Furniture</button>
+			</form>
+
+			<form action="/add_warden_page" method="POST">
+				<button style="width:33%" type="submit">Add Warden</button>
+			</form>
+		</div>
 
 		<form action="/logout" method="POST">
             <label> Hi {{ username }} !</label>
