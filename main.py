@@ -107,7 +107,7 @@ def add_detail():
     
     return render_template('/add_student.html',fields=fields,error=error,success=success)    
 
-<<<<<<< HEAD
+
 @app.route("/add_room_page",methods = ['POST','GET'])
 def add_room_page():
     qry = "SELECT * from Room"
@@ -260,14 +260,15 @@ def add_hostel():
     mydb.commit()
 
     return render_template('/add_hostel.html',fields=fields,error=error,success=success)
-=======
+    
+
 @app.route("/update_details",methods = ['GET','POST'])
 def update_details():
     mycursor.execute("SELECT * from Student")
     fields = mycursor.column_names
     qry = "UPDATE Student SET "
     for field in fields:
-        if request.form[field] != 'None':
+        if request.form[field] not in ['None','']:
             if field in ['student_id','room_no','hostel_id']:
                 qry = qry + "%s = %s , " %(field,request.form[field])
             else:
@@ -285,7 +286,6 @@ def update_details():
     mycursor.execute(qry2)
     res = mycursor.fetchone()
     return render_template("show_detail.html",res = res,fields=fields,not_found = False)
->>>>>>> f1283d28cb4f7dfb2b399855ee551158d79d2605
 
 @app.route("/logout", methods=['POST','GET'])
 def logout():

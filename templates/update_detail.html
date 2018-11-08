@@ -6,8 +6,11 @@
         {% if not_found == True %}
             <p>Sorry! Not Found</p>
         {% else %}
-        <label><strong>{{fields[0]}} : </strong>{{res[0]}}</label>
+        
         <form action = "/update_details" method = 'POST'>
+            <label><strong>{{fields[0]}}</strong></label>
+            <input type="text" name="{{fields[0]}}" value="{{res[0]}}">
+            <br>
             {% for i in range(1,fields | length) %}
                 <label><strong>{{fields[i]}}</strong></label>
                 <input type="text" name="{{fields[i]}}" value="{{res[i]}}">
