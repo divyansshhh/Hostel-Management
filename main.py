@@ -37,13 +37,17 @@ def login():
 
 @app.route("/show_update_detail",methods=['POST','GET'])
 def show_detail():
+    if "back" in request.form:
+            return redirect( url_for('home') )
     if(request.method=='POST'):
+        if request.form['student_id'] =='':
+            return render_template("search_detail.html")
         qry = "SELECT * from Student where student_id = %s" %(request.form['student_id'])
         mycursor.execute(qry)
         not_found = False
         res = mycursor.fetchone()
         print(mycursor.rowcount)
-        if mycursor.rowcount == -1:
+        if mycursor.rowcount <= 0:
             not_found = True
         fields = mycursor.column_names
 
@@ -51,6 +55,15 @@ def show_detail():
             return render_template('show_detail.html',res = res,fields = fields, not_found=not_found)
         if "update" in request.form:
             return render_template('update_detail.html',res = res,fields = fields, not_found=not_found)
+        if "delete" in request.form:
+            if not_found:
+                return render_template('show_detail.html',res=res,fields=fields,not_found=not_found)
+            else:
+                qry2 = "DELETE FROM Student where student_id = %s" %(request.form['student_id'])
+                mycursor.execute(qry2)
+                mydb.commit()
+                return render_template("home.html")
+        
 
 @app.route("/search_detail",methods = ['POST','GET'])
 def search_detail():
@@ -94,6 +107,30 @@ def add_detail():
     
     return render_template('/add_student.html',fields=fields,error=error,success=success)    
 
+@app.route("/update_details",methods = ['GET','POST'])
+def update_details():
+    mycursor.execute("SELECT * from Student")
+    fields = mycursor.column_names
+    qry = "UPDATE Student SET "
+    for field in fields:
+        if request.form[field] != 'None':
+            if field in ['student_id','room_no','hostel_id']:
+                qry = qry + "%s = %s , " %(field,request.form[field])
+            else:
+                qry = qry + " %s = \'%s\' , " %(field,request.form[field])
+        else:
+            qry = qry + "%s = NULL , " %(field)
+    qry = qry[:-2]
+    qry = qry + "WHERE student_id = %s;" %(request.form['student_id'])
+    try:
+        mycursor.execute(qry)
+    except:
+        print("update error")
+    mydb.commit()
+    qry2 = "select * from Student where student_id = %s" %(request.form['student_id'])
+    mycursor.execute(qry2)
+    res = mycursor.fetchone()
+    return render_template("show_detail.html",res = res,fields=fields,not_found = False)
 
 @app.route("/logout", methods=['POST','GET'])
 def logout():
