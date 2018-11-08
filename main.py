@@ -65,7 +65,7 @@ def add_student_page():
 
 
 @app.route("/add_student",methods = ['POST','GET'])
-def update_detail():
+def add_detail():
     qry = "SELECT * from Student"
     mycursor.execute(qry)
     fields = mycursor.column_names
