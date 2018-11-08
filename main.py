@@ -1,4 +1,4 @@
-from flask import Flask,render_template,session,request,redirect,url_for
+from flask import Flask,render_template,session,request,redirect,url_for,flash
 import mysql.connector
 
 mydb = mysql.connector.connect(
@@ -64,8 +64,6 @@ def add_student_page():
     return render_template('add_student.html',fields = fields)
 
 
-# TODO : Check if valid query, or return error when invalid query
-#      : show a Success dialog
 @app.route("/add_student",methods = ['POST','GET'])
 def update_detail():
     qry = "SELECT * from Student"
@@ -84,10 +82,17 @@ def update_detail():
 
     qry = """INSERT INTO Student Values (%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s)"""%val
     print(qry)
-    mycursor.execute(qry)
-    mydb.commit()
-
-    return redirect('/home')    
+    success = True
+    error = False
+    try:
+        mycursor.execute(qry)
+    except:
+        print("Error")
+        error = True
+        success = False
+    mydb.commit()    
+    
+    return render_template('/add_student.html',fields=fields,error=error,success=success)    
 
 
 @app.route("/logout", methods=['POST','GET'])

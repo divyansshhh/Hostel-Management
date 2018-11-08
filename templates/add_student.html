@@ -1,7 +1,16 @@
 <!doctype HTML>
 <html>
     <title>Details</title>
-    <body>        
+    <body>
+        
+        {% if error == True %}
+            ERROR
+        {% endif %}
+
+        {% if success == True %}
+            Successfully Added Student
+        {% endif %}
+        
         <form action = "/add_student" method = 'POST'>
             {% for i in range(0,fields | length) %}
                 <label><strong>{{fields[i]}}</strong></label>
@@ -9,6 +18,9 @@
                 <br>
             {%endfor%}
             <button type="submit">Add Student</button>
+        </form>
+        <form action = "/home" method = 'POST'>
+            <button type="submit">Back</button>
         </form>
     </body>
 </html>
