@@ -313,6 +313,24 @@ def search_student_details():
 
     return render_template('/search_student_details.html',res=res,fields=fields)
 
+@app.route("/room_furniture_page", methods=['GET','POST'])
+def room_furniture_page():
+    return render_template('/room_furniture_page.html')
+
+@app.route("/room_furniture", methods=['GET','POST'])
+def room_furniture():
+    qry = "select * from Furniture where hostel_id="+request.form['hostel_id']+" AND room_no="+request.form['room_id']
+    mycursor.execute(qry)
+    fields = mycursor.column_names
+    furniture = mycursor.fetchall()
+    
+    qry = "select student_id,first_name from Student where hostel_id="+request.form['hostel_id']+" AND room_no="+request.form['room_id']
+    print(qry)
+    mycursor.execute(qry)
+    students = mycursor.fetchall()
+
+    return render_template('/room_furniture.html',fields=fields,furniture=furniture,students=students)
+
 if __name__ == "__main__":
     app.secret_key = 'sec key'
     app.config['SESSION_TYPE'] = 'filesystem'
