@@ -107,7 +107,7 @@ def add_detail():
     
     return render_template('/add_student.html',fields=fields,error=error,success=success)    
 
-<<<<<<< HEAD
+
 @app.route("/add_room_page",methods = ['POST','GET'])
 def add_room_page():
     qry = "SELECT * from Room"
@@ -260,7 +260,7 @@ def add_hostel():
     mydb.commit()
 
     return render_template('/add_hostel.html',fields=fields,error=error,success=success)
-=======
+
 @app.route("/update_details",methods = ['GET','POST'])
 def update_details():
     mycursor.execute("SELECT * from Student")
@@ -285,12 +285,20 @@ def update_details():
     mycursor.execute(qry2)
     res = mycursor.fetchone()
     return render_template("show_detail.html",res = res,fields=fields,not_found = False)
->>>>>>> f1283d28cb4f7dfb2b399855ee551158d79d2605
 
 @app.route("/logout", methods=['POST','GET'])
 def logout():
     session['login'] = False
     return redirect("/login")
+
+@app.route("/search_student_details",methods=['GET','POST'])
+def search_student_details():
+    qry = "SELECT * from Student"
+    mycursor.execute(qry)
+    fields = mycursor.column_names
+    res = mycursor.fetchall()
+
+    return render_template('/search_student_details.html',res=res,fields=fields)
 
 if __name__ == "__main__":
     app.secret_key = 'sec key'
