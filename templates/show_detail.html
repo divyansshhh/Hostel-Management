@@ -8,10 +8,18 @@
         {% else %}
 
             {% for i in range(0,fields | length) %}
-                <label><strong>{{fields[i]}}</strong> : {{res[i]}}</label>
-                <br>
+                
+                    <label><strong>{{fields[i]}}</strong> : {{res[i]}}</label>
+                    <br>
             {%endfor%}
-        
+            {% if warden_found %}
+                <label><strong>warden:</strong>
+                    {% for i in range(0,warden_list | length-1) %}
+                        {{warden_list[i][0]}},
+                    {% endfor %}
+                    {{warden_list[warden_list|length-1][0]}}
+                </label>
+            {% endif %}
         {% endif %}
         <form action = "/home" method = 'POST'>
             <button type="submit">Back</button>
