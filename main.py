@@ -41,8 +41,6 @@ def login():
 
 @app.route("/show_update_detail",methods=['POST','GET'])
 def show_update_detail():
-    if "back" in request.form:
-        return redirect( url_for('home') )
     if not session.get('login'):
         return redirect( url_for('home') )
     if(request.method=='POST'):
