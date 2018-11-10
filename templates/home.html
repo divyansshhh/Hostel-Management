@@ -28,140 +28,191 @@
 		</center>
 	</div>
 
-	<!-- <center><label>Student</label></center> -->
-	<center>
-		<div>
-			<form action="/search_detail" method="POST">
-				<button class="btn btn-primary" style="width: 25%;" type="submit">View/Update Student Details</button>
-			</form>
+	<div id="accordion">
+		<div class="card">
+			<div class="card-header" id="headingOne" data-toggle="collapse" data-target="#collapseOne">
+				<h5 class="mb-0">
+					<button class="btn btn-link" data-toggle="collapse" data-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+						<strong>Student</strong>
+					</button>
+				</h5>
+			</div>
+			<div id="collapseOne" class="collapse show" aria-labelledby="headingOne" data-parent="#accordion">
+				<div class="card-body">
+					<center>
+						<div>
+							<form action="/search_detail" method="POST">
+								<button class="btn btn-primary" style="width: 25%;" type="submit">View/Update Student Details</button>
+							</form>
+						</div>
+					</center>
+					<br>
+					<center>
+						<div>
+							<form action="/add_student_page" method="POST">
+								<button type="submit" style="width: 25%;" class="btn btn-primary">Enroll a student</button>
+							</form>
+						</div>
+					</center>
+					<br>
+					<center>
+						<div>
+							<form action="/room_furniture_page" method="POST">
+								<button class="btn btn-primary" style="width:25%" type="submit">Check Room Furniture</button>
+							</form>
+						</div>
+					</center>
+					<br>
+				</div>
+			</div>
 		</div>
-	</center>
-	<br>
-	<center>
-		<div>
-			<form action="/add_student_page" method="POST">
-				<button type="submit" style="width: 25%;" class="btn btn-primary">Enroll a student</button>
-			</form>
+		<div class="card">
+			<div class="card-header" id="headingTwo" data-toggle="collapse" data-target="#collapseTwo">
+				<h5 class="mb-0">
+					<button class="btn btn-link" data-toggle="collapse" data-target="#collapseTwo" aria-expanded="true" aria-controls="collapseTwo">
+						<strong>Search</strong>
+					</button>
+				</h5>
+			</div>
+
+			<div id="collapseTwo" class="collapse collapse" aria-labelledby="headingTwo" data-parent="#accordion">
+				<div class="card-body">
+					<center>
+						<div>
+							<form action="/search_student_details" method="POST">
+								<button class="btn btn-primary" style="width: 25%;" type="submit">Search Student by Details</button>
+							</form>
+						</div>
+					</center>
+					<br>
+					<center>
+						<div>
+							<form action="/search_room_details" method="POST">
+								<button class="btn btn-primary" style="width: 25%;" type="submit">Search Room Details</button>
+							</form>
+						</div>
+					</center>
+					<br>
+					<center>
+						<div>
+							<form action="/search_hostel_details" method="POST">
+								<button class="btn btn-primary" style="width: 25%;" type="submit">Search Hostel Details</button>
+							</form>
+						</div>
+					</center>
+					<br>
+					<center>
+						<div>
+							<form action="/search_furniture_details" method="POST">
+								<button class="btn btn-primary" style="width: 25%;" type="submit">Search Furniture Details</button>
+							</form>
+						</div>
+					</center>
+					<br>
+					<center>
+						<div>
+							<form action="/search_warden_details" method="POST">
+								<button class="btn btn-primary" style="width: 25%;" type="submit">Search Warden Details</button>
+							</form>
+						</div>
+					</center>
+					<br>
+				</div>
+			</div>
 		</div>
-	</center>
-	<br>
-	<center>
-		<div>
-			<form action="/search_student_details" method="POST">
-				<button class="btn btn-primary" style="width: 25%;" type="submit">Search Student by Details</button>
-			</form>
+		<div class="card">
+			<div class="card-header" id="headingThree" data-toggle="collapse" data-target="#collapseThree">
+				<h5 class="mb-0">
+					<button class="btn btn-link collapsed" data-toggle="collapse" data-target="#collapseThree" aria-expanded="false"
+					 aria-controls="collapseThree">
+						<strong>Add</strong>
+					</button>
+				</h5>
+			</div>
+			<div id="collapseThree" class="collapse" aria-labelledby="headingThree" data-parent="#accordion">
+				<div class="card-body">
+					<center>
+						<div>
+							<form action="/add_hostel_page" method="POST">
+								<button class="btn btn-primary" style="width:25%" type="submit">Add Hostel</button>
+							</form>
+						</div>
+					</center>
+					<br>
+					<center>
+						<div>
+							<form action="/add_room_page" method="POST">
+								<button class="btn btn-primary" style="width:25%" type="submit">Add Room</button>
+							</form>
+						</div>
+					</center>
+					<br>
+					<center>
+						<div>
+							<form action="/add_furniture_page" method="POST">
+								<button class="btn btn-primary" style="width:25%" type="submit">Add Furniture</button>
+							</form>
+						</div>
+					</center>
+					<br>
+					<center>
+						<div>
+							<form action="/add_warden_page" method="POST">
+								<button class="btn btn-primary" style="width:25%" type="submit">Add Warden</button>
+							</form>
+						</div>
+					</center>
+					<br>
+				</div>
+			</div>
 		</div>
-	</center>
-	<br>
-	<center>
-		<div>
-			<form action="/search_room_details" method="POST">
-				<button class="btn btn-primary" style="width: 25%;" type="submit">Search Room Details</button>
-			</form>
+		<div class="card">
+			<div class="card-header" id="headingFour" data-toggle="collapse" data-target="#collapseFour">
+				<h5 class="mb-0">
+					<button class="btn btn-link collapsed" data-toggle="collapse" data-target="#collapseFour" aria-expanded="false"
+					 aria-controls="collapseFour">
+						<strong>Remove </strong>
+					</button>
+				</h5>
+			</div>
+			<div id="collapseFour" class="collapse" aria-labelledby="headingFour" data-parent="#accordion">
+				<div class="card-body">
+					<center>
+						<div>
+							<form action="/remove_hostel" method="POST">
+								<button class="btn btn-primary" style="width: 25%;" type="submit">Remove Hostel</button>
+							</form>
+						</div>
+					</center>
+					<br>
+					<center>
+						<div>
+							<form action="/remove_room" method="POST">
+								<button class="btn btn-primary" style="width: 25%;" type="submit">Remove Room</button>
+							</form>
+						</div>
+					</center>
+					<br>
+					<center>
+						<div>
+							<form action="/remove_warden" method="POST">
+								<button class="btn btn-primary" style="width: 25%;" type="submit">Remove Warden</button>
+							</form>
+						</div>
+					</center>
+					<br>
+					<center>
+						<div>
+							<form action="/remove_furniture" method="POST">
+								<button class="btn btn-primary" style="width: 25%;" type="submit">Remove Furniture</button>
+							</form>
+						</div>
+					</center>
+					<br>
+				</div>
+			</div>
 		</div>
-	</center>
-	<br>
-	<center>
-		<div>
-			<form action="/search_hostel_details" method="POST">
-				<button class="btn btn-primary" style="width: 25%;" type="submit">Search Hostel Details</button>
-			</form>
-		</div>
-	</center>
-	<br>
-	<center>
-		<div>
-			<form action="/search_furniture_details" method="POST">
-				<button class="btn btn-primary" style="width: 25%;" type="submit">Search Furniture Details</button>
-			</form>
-		</div>
-	</center>
-	<br>
-	<center>
-		<div>
-			<form action="/search_warden_details" method="POST">
-				<button class="btn btn-primary" style="width: 25%;" type="submit">Search Warden Details</button>
-			</form>
-		</div>
-	</center>
-	<br>
-	<center>
-		<div>
-			<form action="/add_hostel_page" method="POST">
-				<button class="btn btn-primary" style="width:25%" type="submit">Add Hostel</button>
-			</form>
-		</div>
-	</center>
-	<br>
-	<center>
-		<div>
-			<form action="/add_room_page" method="POST">
-				<button class="btn btn-primary" style="width:25%" type="submit">Add Room</button>
-			</form>
-		</div>
-	</center>
-	<br>
-	<center>
-		<div>
-			<form action="/add_furniture_page" method="POST">
-				<button class="btn btn-primary" style="width:25%" type="submit">Add Furniture</button>
-			</form>
-		</div>
-	</center>
-	<br>
-	<center>
-		<div>
-			<form action="/add_warden_page" method="POST">
-				<button class="btn btn-primary" style="width:25%" type="submit">Add Warden</button>
-			</form>
-		</div>
-	</center>
-	<br>
-	<center>
-		<div>
-			<form action="/remove_hostel" method="POST">
-				<button class="btn btn-primary" style="width: 25%;" type="submit">Remove Hostel</button>
-			</form>
-		</div>
-	</center>
-	<br>
-	<center>
-		<div>
-			<form action="/remove_room" method="POST">
-				<button class="btn btn-primary" style="width: 25%;" type="submit">Remove Room</button>
-			</form>
-		</div>
-	</center>
-	<br>
-	<center>
-		<div>
-			<form action="/remove_warden" method="POST">
-				<button class="btn btn-primary" style="width: 25%;" type="submit">Remove Warden</button>
-			</form>
-		</div>
-	</center>
-	<br>
-	<center>
-		<div>
-			<form action="/remove_furniture" method="POST">
-				<button class="btn btn-primary" style="width: 25%;" type="submit">Remove Furniture</button>
-			</form>
-		</div>
-	</center>
-	<br>
-	<center>
-		<div>
-			<form action="/room_furniture_page" method="POST">
-				<button class="btn btn-primary" style="width:25%" type="submit">Check Room Furniture</button>
-			</form>
-		</div>
-	</center>
-	<br>
-	<center>
-		<form action="/logout" method="POST">
-			<button type="submit" class="btn btn-danger">Logout</button>
-		</form>
-	</center>
+	</div>
 </body>
 
 </html>
