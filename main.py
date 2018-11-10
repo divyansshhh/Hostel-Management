@@ -453,6 +453,8 @@ def impose_fine():
 
 @app.route("/home_student")
 def home_student():
+    if not session.get('login'):
+        return redirect( url_for('home') )
     qry = "Select * from Student Left Join Hostel on Hostel.hostel_id = Student.hostel_id where student_id = %s" %(session.get('username'))
     print(qry)
     not_found= False
@@ -483,6 +485,80 @@ def home_student():
     else:
         res = res + (temp[1],)
     return render_template('/home_student.html',not_found = not_found, warden_found= warden_found, warden_list = warden_list, res= res,fields = fields)
+
+@app.route('/remove_hostel',methods=['GET','POST'])
+def remove_hostel():
+    if not session.get('login'):
+        return redirect( url_for('home') )
+    return render_template('/remove_hostel.html')
+
+@app.route('/remove_room',methods=['GET','POST'])
+def remove_room():
+    if not session.get('login'):
+        return redirect( url_for('home') )
+    return render_template('/remove_room.html')
+
+@app.route('/remove_warden',methods=['GET','POST'])
+def remove_warden():
+    if not session.get('login'):
+        return redirect( url_for('home') )
+    return render_template('/remove_warden.html')
+
+@app.route('/remove_furniture',methods=['GET','POST'])
+def remove_furniture():
+    if not session.get('login'):
+        return redirect( url_for('home') )
+    return render_template('/remove_furniture.html')
+
+@app.route('/del_furniture',methods=['GET','POST'])
+def del_furniture():
+    if not session.get('login'):
+        return redirect( url_for('home') )
+    qry = "delete from Furniture where furniture_id="+str(request.form['furniture_id'])
+    try:
+        mycursor.execute(qry)
+    except:
+        print("Error in deletion")
+    mydb.commit()
+    return redirect( url_for('home') )
+
+@app.route('/del_warden',methods=['GET','POST'])
+def del_warden():
+    if not session.get('login'):
+        return redirect( url_for('home') )
+    qry = "delete from Warden where warden_id="+str(request.form['warden_id'])
+    try:
+        mycursor.execute(qry)
+    except:
+        print("Error in deletion")
+    mydb.commit()
+    return redirect( url_for('home') )
+
+@app.route('/del_room',methods=['GET','POST'])
+def del_room():
+    if not session.get('login'):
+        return redirect( url_for('home') )
+    qry = "delete from Room where room_id="+str(request.form['room_id'])+" and hostel_id="+str(request.form['hostel_id'])
+    try:
+        mycursor.execute(qry)
+    except:
+        print("Error in deletion")
+    mydb.commit()
+    return redirect( url_for('home') )
+
+@app.route('/del_hostel',methods=['GET','POST'])
+def del_hostel():
+    if not session.get('login'):
+        return redirect( url_for('home') )
+    qry = "delete from Hostel where hostel_id="+str(request.form['hostel_id'])
+    print(qry)
+    try:
+        mycursor.execute(qry)
+    except:
+        print("Error in deletion")
+    mydb.commit()
+    return redirect( url_for('home') )
+
 
 if __name__ == "__main__":
     app.secret_key = 'sec key'
