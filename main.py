@@ -19,7 +19,7 @@ def home():
         if session.get('isAdmin') :
             return render_template('home.html',username=session.get('username'))
         else :
-            return render_template('home_student.html',username=session.get('username'))
+            return home_student()
 
 @app.route("/login",methods = ['GET','POST'])
 def login():
@@ -404,8 +404,40 @@ def impose_fine():
             mycursor.execute(qry)
             mydb.commit()
 
-    return redirect( url_for('home') )
-    
+    return redirect( url_for('home') )    
+
+@app.route("/home_student")
+def home_student():
+    qry = "Select * from Student Left Join Hostel on Hostel.hostel_id = Student.hostel_id where student_id = %s" %(session.get('username'))
+    print(qry)
+    not_found= False
+    mycursor.execute(qry)
+    res = ()
+    warden_list = ()
+    warden_found = False
+    if mycursor.rowcount > 0:
+        res = mycursor.fetchone()
+    else:
+        not_found = True
+    fields = mycursor.column_names
+    if not not_found:
+        qry2 = "Select warden_name from Warden where warden_of = %s" %(res[11])
+        warden_found = True
+        warden_list = ()
+        try:
+            mycursor.execute(qry2)
+            warden_list = mycursor.fetchall()
+        except:
+            warden_found = False
+    qry_fine = "select * from Fines where student_id = %s" %(session.get('username'))
+    mycursor.execute(qry_fine)
+    temp = mycursor.fetchone()
+    fields = fields + ('fine_amount',)
+    if mycursor.rowcount == 0:
+        res = res + (0,)
+    else:
+        res = res + (temp[1],)
+    return render_template('/home_student.html',not_found = not_found, warden_found= warden_found, warden_list = warden_list, res= res,fields = fields)
 
 if __name__ == "__main__":
     app.secret_key = 'sec key'

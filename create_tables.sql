@@ -61,5 +61,6 @@ INSERT INTO Student VALUES(1,'Ramdom',NULL,'User',NULL,NULL,NULL,'CSE','2000-01-
 
 CREATE TABLE Fines(
     student_id INT,
-    fine INT
+    fine INT,
+    PRIMARY KEY (student_id)
 );
