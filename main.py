@@ -69,10 +69,17 @@ def show_update_detail():
                 warden_list = mycursor.fetchall()
             except:
                 warden_found = False
+        qry_upd = "Select * from Student where student_id = %s" %(request.form['student_id'])
+        mycursor.execute(qry_upd)
+        upd_res = mycursor.fetchone()
+        upd_not_found = False
+        upd_fields = mycursor.column_names
+        if mycursor.rowcount <= 0:
+            upd_not_found = True
         if "show" in request.form:
             return render_template('show_detail.html',res = res,fields = fields, not_found=not_found,warden_list=warden_list,warden_found = warden_found)
         if "update" in request.form:
-            return render_template('update_detail.html',res = res,fields = fields, not_found=not_found)
+            return render_template('update_detail.html',res =upd_res,fields = upd_fields, not_found=upd_not_found)
         if "delete" in request.form:
             if not_found:
                 return render_template('show_detail.html',res=res,fields=fields,not_found=not_found)
