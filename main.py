@@ -1,5 +1,5 @@
 from flask import Flask,render_template,session,request,redirect,url_for,flash
-import mysql.connector
+import mysql.connector,hashlib 
 
 mydb = mysql.connector.connect(
   host='localhost',
@@ -16,7 +16,7 @@ def home():
     if not session.get('login'):
         return render_template('login.html'),401
     else:
-        if session['isAdmin'] :
+        if session.get('isAdmin') :
             return render_template('home.html',username=session.get('username'))
         else :
             return render_template('home_student.html',username=session.get('username'))
@@ -43,7 +43,7 @@ def login():
 def show_update_detail():
     if "back" in request.form:
         return redirect( url_for('home') )
-    if session['login']==False:
+    if not session.get('login'):
         return redirect( url_for('home') )
     if(request.method=='POST'):
         if request.form['student_id'] =='':
@@ -85,13 +85,13 @@ def show_update_detail():
 
 @app.route("/search_detail",methods = ['POST','GET'])
 def search_detail():
-    if session['login']==False:
+    if not session.get('login'):
         return redirect( url_for('home') )
     return render_template('search_detail.html')
 
 @app.route("/add_student_page",methods = ['POST','GET'])
 def add_student_page():
-    if session['login']==False:
+    if not session.get('login'):
         return redirect( url_for('home') )
     qry = "SELECT * from Student"
     mycursor.execute(qry)
@@ -101,7 +101,7 @@ def add_student_page():
 
 @app.route("/add_student",methods = ['POST','GET'])
 def add_detail():
-    if session['login']==False:
+    if not session.get('login'):
         return redirect( url_for('home') )
     qry = "SELECT * from Student"
     mycursor.execute(qry)
@@ -134,7 +134,7 @@ def add_detail():
 
 @app.route("/add_room_page",methods = ['POST','GET'])
 def add_room_page():
-    if session['login']==False:
+    if not session.get('login'):
         return redirect( url_for('home') )
     qry = "SELECT * from Room"
     mycursor.execute(qry)
@@ -143,7 +143,7 @@ def add_room_page():
 
 @app.route("/add_room", methods=['POST','GET'])
 def add_room():
-    if session['login']==False:
+    if not session.get('login'):
         return redirect( url_for('home') )
     qry = "SELECT * from Room"
     mycursor.execute(qry)
@@ -176,7 +176,7 @@ def add_room():
 
 @app.route("/add_furniture_page",methods = ['POST','GET'])
 def add_furniture_page():
-    if session['login']==False:
+    if not session.get('login'):
         return redirect( url_for('home') )
     qry = "SELECT * from Furniture"
     mycursor.execute(qry)
@@ -185,7 +185,7 @@ def add_furniture_page():
 
 @app.route("/add_furniture", methods=['POST','GET'])
 def add_furniture():
-    if session['login']==False:
+    if not session.get('login'):
         return redirect( url_for('home') )
     qry = "SELECT * from Furniture"
     mycursor.execute(qry)
@@ -219,7 +219,7 @@ def add_furniture():
 
 @app.route("/add_warden_page",methods = ['POST','GET'])
 def add_warden_page():
-    if session['login']==False:
+    if not session.get('login'):
         return redirect( url_for('home') )
     qry = "SELECT * from Warden"
     mycursor.execute(qry)
@@ -228,7 +228,7 @@ def add_warden_page():
 
 @app.route("/add_warden", methods=['POST','GET'])
 def add_warden():
-    if session['login']==False:
+    if not session.get('login'):
         return redirect( url_for('home') )
     qry = "SELECT * from Warden"
     mycursor.execute(qry)
@@ -261,7 +261,7 @@ def add_warden():
 
 @app.route("/add_hostel_page",methods = ['POST','GET'])
 def add_hostel_page():
-    if session['login']==False:
+    if not session.get('login'):
         return redirect( url_for('home') )
     qry = "SELECT * from Hostel"
     mycursor.execute(qry)
@@ -270,7 +270,7 @@ def add_hostel_page():
 
 @app.route("/add_hostel", methods=['POST','GET'])
 def add_hostel():
-    if session['login']==False:
+    if not session.get('login'):
         return redirect( url_for('home') )
     qry = "SELECT * from Hostel"
     mycursor.execute(qry)
@@ -304,7 +304,7 @@ def add_hostel():
 
 @app.route("/update_details",methods = ['GET','POST'])
 def update_details():
-    if session['login']==False:
+    if not session.get('login'):
         return redirect( url_for('home') )
     mycursor.execute("SELECT * from Student")
     fields = mycursor.column_names
@@ -337,7 +337,7 @@ def logout():
 
 @app.route("/search_student_details",methods=['GET','POST'])
 def search_student_details():
-    if session['login']==False:
+    if not session.get('login'):
         return redirect( url_for('home') )
     qry = "SELECT * from Student"
     mycursor.execute(qry)
@@ -348,13 +348,13 @@ def search_student_details():
 
 @app.route("/room_furniture_page", methods=['GET','POST'])
 def room_furniture_page():
-    if session['login']==False:
+    if not session.get('login') or not session.get('isAdmin'):
         return redirect( url_for('home') )
     return render_template('/room_furniture_page.html')
 
 @app.route("/room_furniture", methods=['GET','POST'])
 def room_furniture():
-    if session['login']==False:
+    if not session.get('login') or not session.get('isAdmin'):
         return redirect( url_for('home') )
     qry = "select * from Furniture where hostel_id="+request.form['hostel_id']+" AND room_no="+request.form['room_id']
     mycursor.execute(qry)
