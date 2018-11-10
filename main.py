@@ -426,6 +426,7 @@ def impose_fine():
     if not session.get('login') or not session.get('isAdmin'):
         return redirect( url_for('home') )
     students = session.get('fineStu')
+    session['fineStu'] = ()
     num = len(students)
     try:
         finePerStu = float(request.form['fine'])//num
