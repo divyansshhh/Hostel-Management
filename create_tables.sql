@@ -58,3 +58,8 @@ CREATE TABLE Warden(
 );
 
 INSERT INTO Student VALUES(1,'Ramdom',NULL,'User',NULL,NULL,NULL,'CSE','2000-01-01','900000000',NULL,NULL);
+
+CREATE TABLE Fines(
+    student_id INT,
+    fine INT
+);
