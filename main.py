@@ -69,6 +69,14 @@ def show_update_detail():
                 warden_list = mycursor.fetchall()
             except:
                 warden_found = False
+        qry_fine = "select * from Fines where student_id = %s" %(request.form['student_id'])
+        mycursor.execute(qry_fine)
+        temp = mycursor.fetchone()
+        fields = fields + ('fine_amount',)
+        if mycursor.rowcount == 0:
+            res = res + (0,)
+        else:
+            res = res + (temp[1],)
         qry_upd = "Select * from Student where student_id = %s" %(request.form['student_id'])
         mycursor.execute(qry_upd)
         upd_res = mycursor.fetchone()
