@@ -351,7 +351,51 @@ def search_student_details():
     fields = mycursor.column_names
     res = mycursor.fetchall()
 
-    return render_template('/search_student_details.html',res=res,fields=fields)
+    return render_template('/search_and_show_list.html',res=res,fields=fields)
+
+@app.route("/search_furniture_details",methods=['GET','POST'])
+def search_furniture_details():
+    if not session.get('login'):
+        return redirect( url_for('home') )
+    qry = "SELECT * from Furniture"
+    mycursor.execute(qry)
+    fields = mycursor.column_names
+    res = mycursor.fetchall()
+
+    return render_template('/search_and_show_list.html',res=res,fields=fields)
+
+@app.route("/search_room_details",methods=['GET','POST'])
+def search_room_details():
+    if not session.get('login'):
+        return redirect( url_for('home') )
+    qry = "SELECT * from Room"
+    mycursor.execute(qry)
+    fields = mycursor.column_names
+    res = mycursor.fetchall()
+
+    return render_template('/search_and_show_list.html',res=res,fields=fields)
+
+@app.route("/search_hostel_details",methods=['GET','POST'])
+def search_hostel_details():
+    if not session.get('login'):
+        return redirect( url_for('home') )
+    qry = "SELECT * from Hostel"
+    mycursor.execute(qry)
+    fields = mycursor.column_names
+    res = mycursor.fetchall()
+
+    return render_template('/search_and_show_list.html',res=res,fields=fields)
+
+@app.route("/search_warden_details",methods=['GET','POST'])
+def search_warden_details():
+    if not session.get('login'):
+        return redirect( url_for('home') )
+    qry = "SELECT * from Warden"
+    mycursor.execute(qry)
+    fields = mycursor.column_names
+    res = mycursor.fetchall()
+
+    return render_template('/search_and_show_list.html',res=res,fields=fields)
 
 @app.route("/room_furniture_page", methods=['GET','POST'])
 def room_furniture_page():

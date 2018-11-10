@@ -12,7 +12,7 @@
         $(document).ready(function(){
             $("#search").on("keyup", function() {
             var value = $(this).val().toLowerCase();
-            $("#studentsTable tr").filter(function() {
+            $("#Table tr").filter(function() {
                 $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
             });
             });
@@ -58,7 +58,7 @@
                 </tr>
             </thead>
 
-            <tbody id="studentsTable">
+            <tbody id="Table">
                 {% for i in range(0,res | length) %}
                 <tr>
                     {% for j in range(0,res[i] | length) %}
