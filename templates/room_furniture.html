@@ -1,6 +1,8 @@
 <!DOCTYPE html>
 <html>
 	<head>
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+
         <script src="https://code.jquery.com/jquery-1.9.1.min.js"></script>
         <script>
             $(function() {
@@ -31,26 +33,28 @@
 		<title>Room's Furniture List</title>
 	</head>
 	<body>
-		<div>
-            <label>Students In this Room</label><br>
+		<div class="container">
+            <label>Students In this Room</label>
             {%for i in range(0,students | length)%}
-                <label>Student ID - {{students[i][0]}} , </label>
-                <label>First Name - {{students[i][1]}}</label>
-                <br>
+                <div class="form-group">
+                    <label>Student ID - {{students[i][0]}} , </label>
+                    <label>First Name - {{students[i][1]}}</label>
+                </div>
             {%endfor%}
-            <br>
         </div>
-        <form>
-            <label>Furniture List (select all that exists)</label><br>
+        <form class="container">
+            <label>Furniture List (select all that exists)</label>
             {%for i in range(0,furniture | length)%}
-                <input type="checkbox" name={{furniture[i][0]}} value={{furniture[i][0]}} class={{furniture[i][1]}}>
-                <label>ID - {{furniture[i][0]}} ; </label>
-                <label>Type - {{furniture[i][1]}}</label>
-                <br>
+                <div class="form-group">
+                    <input type="checkbox" name={{furniture[i][0]}} value={{furniture[i][0]}} class={{furniture[i][1]}}>
+                    <label>ID - {{furniture[i][0]}} ; </label>
+                    <label>Type - {{furniture[i][1]}}</label>
+                </div>
             {%endfor%}
-
-            <label>Fine Amount :</label>
-            <input id="fine" type="number" value=0>
+            <div class="form-group">
+                <label>Fine Amount :</label>
+                <input id="fine" type="number" value=0>
+            </div>
         </form>
 	</body>
 </html> 

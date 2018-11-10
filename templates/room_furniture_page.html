@@ -1,19 +1,20 @@
 <!DOCTYPE html>
 <html>
 	<head>
+		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
 		<title>Search Room's Furniture</title>
 	</head>
 	<body>
 		<form action="/room_furniture" method="POST">
-			<div>
+			<div class="form-group">
 				<label>Room No.</label>
 				<input type="number" name="room_id">
             </div>
-            <div>
+            <div class="form-group">
 				<label>Hostel No.</label>
 				<input type="number" name="hostel_id">
 			</div>
-			<button type="submit" width="20%" name="show">See Furniture Details for this Room</button>
+			<button type="submit" width="20%" name="show" class="btn btn-primary">See Furniture Details for this Room</button>
 		</form>
 	</body>
 </html> 
