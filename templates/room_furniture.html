@@ -33,28 +33,34 @@
 		<title>Room's Furniture List</title>
 	</head>
 	<body>
-		<div class="container">
+		
+
+        <form action="/impose_fine" class="container" method="POST">
             <label>Students In this Room</label>
-            {%for i in range(0,students | length)%}
-                <div class="form-group">
-                    <label>Student ID - {{students[i][0]}} , </label>
-                    <label>First Name - {{students[i][1]}}</label>
-                </div>
-            {%endfor%}
-        </div>
-        <form class="container">
-            <label>Furniture List (select all that exists)</label>
-            {%for i in range(0,furniture | length)%}
-                <div class="form-group">
-                    <input type="checkbox" name={{furniture[i][0]}} value={{furniture[i][0]}} class={{furniture[i][1]}}>
-                    <label>ID - {{furniture[i][0]}} ; </label>
-                    <label>Type - {{furniture[i][1]}}</label>
-                </div>
-            {%endfor%}
-            <div class="form-group">
-                <label>Fine Amount :</label>
-                <input id="fine" type="number" value=0>
+            <div id="student_list">
+                {%for i in range(0,students | length)%}
+                    <div class="form-group">
+                        <label>Student ID - </label><label id="stu">{{students[i][0]}}</label>
+                        <label> , First Name - {{students[i][1]}}</label>
+                    </div>
+                {%endfor%}
             </div>
+            <div>
+                <label>Furniture List (select all that exists)</label>
+                {%for i in range(0,furniture | length)%}
+                    <div class="form-group">
+                        <input type="checkbox" name={{furniture[i][0]}} value={{furniture[i][0]}} class={{furniture[i][1]}}>
+                        <label>ID - {{furniture[i][0]}} ; </label>
+                        <label>Type - {{furniture[i][1]}}</label>
+                    </div>
+                {%endfor%}
+                
+            </div>
+            
+                <label>Fine Amount :</label>
+                <input id="fine" name="fine" type="text">
+            
+            <button type="submit" class="btn btn-primary">Charge Fine on All Students</button>
         </form>
 	</body>
 </html> 

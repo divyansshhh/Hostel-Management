@@ -373,7 +373,39 @@ def room_furniture():
     mycursor.execute(qry)
     students = mycursor.fetchall()
 
+    session['fineStu'] = students
+
     return render_template('/room_furniture.html',fields=fields,furniture=furniture,students=students)
+
+@app.route("/impose_fine", methods=['GET','POST'])
+def impose_fine():
+    if not session.get('login') or not session.get('isAdmin'):
+        return redirect( url_for('home') )
+    students = session.get('fineStu')
+    num = len(students)
+    try:
+        finePerStu = float(request.form['fine'])//num
+    except:
+        return redirect( url_for('home') )
+
+    if num==0 or finePerStu==0.0:
+        return redirect( url_for('home') )
+    
+    for student in students:
+        qry = "select fine from Fines where student_id="+str(student[0])
+        mycursor.execute(qry)
+        res = mycursor.fetchall()
+        if len(res)==0:
+            qry = "insert into Fines values ("+str(student[0])+","+str(finePerStu)+")"
+            mycursor.execute(qry)
+            mydb.commit()
+        else:
+            qry = "update Fines set fine="+str(res[0][0]+finePerStu)+" where student_id="+str(student[0])
+            mycursor.execute(qry)
+            mydb.commit()
+
+    return redirect( url_for('home') )
+    
 
 if __name__ == "__main__":
     app.secret_key = 'sec key'
