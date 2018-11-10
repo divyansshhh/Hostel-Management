@@ -48,10 +48,10 @@
             <div>
                 <label>Furniture List (select all that exists)</label>
                 {%for i in range(0,furniture | length)%}
-                    <div class="form-group">
-                        <input type="checkbox" name={{furniture[i][0]}} value={{furniture[i][0]}} class={{furniture[i][1]}}>
-                        <label>ID - {{furniture[i][0]}} ; </label>
-                        <label>Type - {{furniture[i][1]}}</label>
+                    <div>
+                        <input type="checkbox" name={{furniture[i][0]}} value={{furniture[i][0]}}>
+                        <label>ID-{{furniture[i][0]}}; </label>
+                        <label>Type-{{furniture[i][1]}}</label>
                     </div>
                 {%endfor%}
                 
