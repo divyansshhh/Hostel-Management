@@ -16,7 +16,7 @@
                 <label style="color:white; padding-right: 10px" >Hi {{session.get('username')}}!</label>
                 <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Logout</button>
             </form>
-            </nav>
+        </nav>
         <div class="jumbotron">
             <center><h1 class="display-4">Hostel Management</h1></center>
         </div>
@@ -40,9 +40,6 @@
                     {%endfor%}
             </table>
             <center><button class = "btn btn-success" type="submit">Add Student</button></center>
-        </form>
-        <form action = "/home" method = 'POST'>
-            <button type="submit" width="20%">Back</button>
         </form>
     </body>
 </html>
