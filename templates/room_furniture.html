@@ -1,11 +1,13 @@
 <!DOCTYPE html>
 <html>
-	<head>
-        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
 
-        <script src="https://code.jquery.com/jquery-1.9.1.min.js"></script>
-        <script>
-            $(function() {
+<head>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm"
+        crossorigin="anonymous">
+
+    <script src="https://code.jquery.com/jquery-1.9.1.min.js"></script>
+    <script>
+        $(function() {
                 var x = document.getElementsByTagName('input');
                 var i;
                 for (i = 0; i < x.length-1; i++) {
@@ -30,37 +32,47 @@
             }
         
         </script>
-		<title>Room's Furniture List</title>
-	</head>
-	<body>
-		
+    <title>Room's Furniture List</title>
+</head>
 
-        <form action="/impose_fine" class="container" method="POST">
-            <label>Students In this Room</label>
-            <div id="student_list">
-                {%for i in range(0,students | length)%}
-                    <div class="form-group">
-                        <label>Student ID - </label><label id="stu">{{students[i][0]}}</label>
-                        <label> , First Name - {{students[i][1]}}</label>
-                    </div>
-                {%endfor%}
-            </div>
-            <div>
-                <label>Furniture List (select all that exists)</label>
-                {%for i in range(0,furniture | length)%}
-                    <div>
-                        <input type="checkbox" name={{furniture[i][0]}} value={{furniture[i][0]}}>
-                        <label>ID-{{furniture[i][0]}}; </label>
-                        <label>Type-{{furniture[i][1]}}</label>
-                    </div>
-                {%endfor%}
-                
-            </div>
-            
-                <label>Fine Amount :</label>
-                <input id="fine" name="fine" type="text" value="0">
-            
-            <button type="submit" class="btn btn-primary">Charge Fine on All Students</button>
+<body>
+    <nav class="navbar navbar-dark bg-dark justify-content-between">
+        <form action="/home">
+            <button style="border: 0px solid transparent;" class="btn btn-outline-primary">HOME</button>
         </form>
-	</body>
-</html> 
+        <form class="form-inline" action="/logout">
+            <label style="color:white; padding-right: 10px">Hi {{session.get('username')}}!</label>
+            <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Logout</button>
+        </form>
+    </nav>
+
+    <form action="/impose_fine" class="container" method="POST">
+        <label>Students In this Room</label>
+        <div id="student_list">
+            {%for i in range(0,students | length)%}
+            <div class="form-group">
+                <label>Student ID - </label><label id="stu">{{students[i][0]}}</label>
+                <label> , First Name - {{students[i][1]}}</label>
+            </div>
+            {%endfor%}
+        </div>
+        <div>
+            <label>Furniture List (select all that exists)</label>
+            {%for i in range(0,furniture | length)%}
+            <div>
+                <input type="checkbox" name={{furniture[i][0]}} value={{furniture[i][0]}}>
+                <label>ID-{{furniture[i][0]}}; </label>
+                <label>Type-{{furniture[i][1]}}</label>
+            </div>
+            {%endfor%}
+
+        </div>
+
+        <label>Fine Amount :</label>
+        <input id="fine" name="fine" type="text" value="0">
+
+        <button type="submit" class="btn btn-primary">Charge Fine on All Students</button>
+    </form>
+</body>
+
+</html>
