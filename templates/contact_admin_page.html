@@ -6,7 +6,7 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js"></script>
 <html>
-    <title>Details</title>
+    <title>Feedback/Message to Admin</title>
     <body>
         <nav class="navbar navbar-dark bg-dark justify-content-between">
             <form action = "/home">
@@ -25,21 +25,19 @@
         {% endif %}
 
         {% if success == True %}
-            Successfully Added Hostel
+            Successfully Sent Message/Feedback To Admin
         {% endif %}
         
-        <form action = "/add_hostel" method = 'POST'>
+        <form action = "/contact_admin" method = 'POST'>
             <table class = "table table-striped table-sm">
-                    {% for i in range(0,fields | length) %}
                         <tr>
-                            <th scope="row">{{fields[i]}}</th>
+                            <th scope="row">Message</th>
                             <td>
-                                <input class = "form-control"  name = "{{fields[i]}}">
+                                <textarea class = "form-control"  name = "message"></textarea>
                             </td>
                         </tr>
-                    {%endfor%}
             </table>
-            <center><button class = "btn btn-success" type="submit">Add Hostel</button></center>
+            <center><button class = "btn btn-success" type="submit">Send Message</button></center>
         </form>
     </body>
 </html>

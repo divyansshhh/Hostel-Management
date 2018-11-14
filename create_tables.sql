@@ -57,10 +57,17 @@ CREATE TABLE Warden(
     FOREIGN KEY(warden_of) REFERENCES Hostel(hostel_id) ON DELETE CASCADE
 );
 
-INSERT INTO Student VALUES(1,'Ramdom',NULL,'User',NULL,NULL,NULL,'CSE','2000-01-01','900000000',NULL,NULL);
+INSERT INTO Student VALUES(1,'Random',NULL,'User',NULL,NULL,NULL,'CSE','2000-01-01','900000000',NULL,NULL);
 
 CREATE TABLE Fines(
     student_id INT,
     fine INT,
     PRIMARY KEY (student_id)
+);
+
+CREATE TABLE Messages (
+    message_id INT NOT NULL AUTO_INCREMENT,
+    username VARCHAR(20),
+    message VARCHAR(1023),
+    PRIMARY KEY (message_id)
 );

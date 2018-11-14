@@ -43,7 +43,7 @@ def login():
 def show_update_detail():
     if not session.get('login'):
         return redirect( url_for('home') )
-    if(request.method=='POST'):
+    if request.method=='POST':
         if request.form['student_id'] =='':
             return render_template("search_detail.html")
         qry = "Select * from Student Left Join Hostel on Hostel.hostel_id = Student.hostel_id where student_id = %s" %(request.form['student_id'])
@@ -145,14 +145,15 @@ def add_detail():
     return render_template('/add_student.html',fields=fields,error=error,success=success)    
 
 
-@app.route("/add_room_page",methods = ['POST','GET'])
-def add_room_page():
+@app.route("/add_<id>_page",methods = ['POST','GET'])
+def add_page(id):
     if not session.get('login'):
         return redirect( url_for('home') )
-    qry = "SELECT * from Room"
+    qry = "SELECT * from " + id.capitalize()
     mycursor.execute(qry)
     fields = mycursor.column_names
-    return render_template('add_room.html',fields = fields)
+
+    return render_template('add_page.html',success=request.args.get('success'), error=request.args.get('error'), fields = fields, id= id.encode('ascii','ignore'))
 
 @app.route("/add_room", methods=['POST','GET'])
 def add_room():
@@ -184,17 +185,8 @@ def add_room():
         success = False
     mydb.commit()
 
-    return render_template('/add_room.html',fields=fields,error=error,success=success)
+    return redirect(url_for('add_page', id='room', error=error,success=success))
 
-
-@app.route("/add_furniture_page",methods = ['POST','GET'])
-def add_furniture_page():
-    if not session.get('login'):
-        return redirect( url_for('home') )
-    qry = "SELECT * from Furniture"
-    mycursor.execute(qry)
-    fields = mycursor.column_names
-    return render_template('add_furniture.html',fields = fields)
 
 @app.route("/add_furniture", methods=['POST','GET'])
 def add_furniture():
@@ -227,17 +219,9 @@ def add_furniture():
         success = False
     mydb.commit()
 
-    return render_template('/add_furniture.html',fields=fields,error=error,success=success)
+    return redirect(url_for('add_page', id='furniture', error=error,success=success))
 
 
-@app.route("/add_warden_page",methods = ['POST','GET'])
-def add_warden_page():
-    if not session.get('login'):
-        return redirect( url_for('home') )
-    qry = "SELECT * from Warden"
-    mycursor.execute(qry)
-    fields = mycursor.column_names
-    return render_template('add_warden.html',fields = fields)
 
 @app.route("/add_warden", methods=['POST','GET'])
 def add_warden():
@@ -270,16 +254,8 @@ def add_warden():
         success = False
     mydb.commit()
 
-    return render_template('/add_warden.html',fields=fields,error=error,success=success)
+    return redirect(url_for('add_page', id='warden', error=error,success=success))
 
-@app.route("/add_hostel_page",methods = ['POST','GET'])
-def add_hostel_page():
-    if not session.get('login'):
-        return redirect( url_for('home') )
-    qry = "SELECT * from Hostel"
-    mycursor.execute(qry)
-    fields = mycursor.column_names
-    return render_template('add_hostel.html',fields = fields)
 
 @app.route("/add_hostel", methods=['POST','GET'])
 def add_hostel():
@@ -312,7 +288,7 @@ def add_hostel():
         success = False
     mydb.commit()
 
-    return render_template('/add_hostel.html',fields=fields,error=error,success=success)
+    return redirect(url_for('add_page', id='hostel', error=error,success=success))
     
 
 @app.route("/update_details",methods = ['GET','POST'])
@@ -564,6 +540,61 @@ def del_hostel():
         print("Error in deletion")
     mydb.commit()
     return redirect( url_for('home') )
+
+@app.route('/contact_admin_page',methods=['GET','POST'])
+def contact_admin_page():
+    print(session.get('isAdmin'))
+    if not session.get('login') or session.get('isAdmin'):
+        return redirect( url_for('home') )
+    return render_template('contact_admin_page.html')
+
+@app.route('/contact_admin',methods=['GET','POST'])
+def contact_admin():
+    if not session.get('login') or session.get('isAdmin'):
+        return redirect( url_for('home') )
+    username = session.get('username')
+    message = request.form['message']
+    
+    qry = "insert into Messages (username,message) values (\'"+username+"\',\'"+message+"\')"
+    
+    success = True
+    error = False
+    try:
+        mycursor.execute(qry)
+    except:
+        print("Error")
+        error = True
+        success = False
+    mydb.commit()
+
+    return render_template('contact_admin_page.html',error=error,success=success)
+
+
+@app.route('/see_messages',methods=['GET','POST'])
+def see_messages():
+    if not session.get('login') or not session.get('isAdmin'):
+        return redirect( url_for('home') )
+    
+    qry = "Select * from Messages"
+    mycursor.execute(qry)
+    msg = mycursor.fetchall()
+
+    return render_template('see_messages.html',msg=msg)
+
+@app.route('/seen_message',methods=['GET','POST'])
+def seen_message():
+    if not session.get('login') or not session.get('isAdmin'):
+        return redirect( url_for('home') )
+
+    print(request.form['id'])
+
+    msg_id = request.form['id']
+
+    qry = "delete from Messages where message_id=\'"+msg_id+"\'" 
+    mycursor.execute(qry)
+    mydb.commit()
+
+    return redirect(url_for('see_messages'))
 
 
 if __name__ == "__main__":
