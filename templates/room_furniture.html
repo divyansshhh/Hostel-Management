@@ -22,9 +22,9 @@
                 var fine=0;
                 for (i = 0; i < x.length-1; i++) {
                     if(!x[i].checked){
-                        fine += (x[i].classList.contains('chair')?2000:0)
-                                +(x[i].classList.contains('bed')?20000:0)
-                                +(x[i].classList.contains('table')?10000:0);
+                        fine += ((x[i].value=='chair')?2000:0)
+                                +((x[i].value=='bed')?20000:0)
+                                +((x[i].value=='table')?10000:0);
                     }
                 }
                 console.log(fine);
@@ -45,34 +45,40 @@
             <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Logout</button>
         </form>
     </nav>
-
-    <form action="/impose_fine" class="container" method="POST">
-        <label>Students In this Room</label>
-        <div id="student_list">
-            {%for i in range(0,students | length)%}
-            <div class="form-group">
-                <label>Student ID - </label><label id="stu">{{students[i][0]}}</label>
-                <label> , First Name - {{students[i][1]}}</label>
+    <div class="jumbotron">
+        <center>
+            <h1 class="display-4">Hostel Management</h1>
+        </center>
+    </div>
+    <center>
+        <form action="/impose_fine" class="container" method="POST">
+            <label><h5><strong>Students In this Room</strong></h5></label>
+            <div id="student_list">
+                {%for i in range(0,students | length)%}
+                <div class="form-group">
+                    <label>Student ID - </label><label id="stu">{{students[i][0]}}</label>
+                    <label> , First Name - {{students[i][1]}}</label>
+                </div>
+                {%endfor%}
             </div>
-            {%endfor%}
-        </div>
-        <div>
-            <label>Furniture List (select all that exists)</label>
-            {%for i in range(0,furniture | length)%}
             <div>
-                <input type="checkbox" name={{furniture[i][0]}} value={{furniture[i][0]}}>
-                <label>ID-{{furniture[i][0]}}; </label>
-                <label>Type-{{furniture[i][1]}}</label>
+                <label><h5><strong>Furniture List (select all that exists)</strong></h5></label>
+                {%for i in range(0,furniture | length)%}
+                <div>
+                    <input type="checkbox" name={{furniture[i][0]}} value={{furniture[i][1]}}>
+                    <label>ID-{{furniture[i][0]}}; </label>
+                    <label>Type-{{furniture[i][1]}}</label>
+                </div>
+                {%endfor%}
+
             </div>
-            {%endfor%}
 
-        </div>
+            <label>Fine Amount :</label>
+            <input id="fine" name="fine" type="text" value="0">
 
-        <label>Fine Amount :</label>
-        <input id="fine" name="fine" type="text" value="0">
-
-        <button type="submit" class="btn btn-primary">Charge Fine on All Students</button>
-    </form>
+            <button type="submit" class="btn btn-primary">Charge Fine on All Students</button>
+        </form>
+    </center>
 </body>
 
 </html>
