@@ -24,8 +24,7 @@ def home():
 @app.route("/login",methods = ['GET','POST'])
 def login():
     if request.method=='POST' :
-        query = """SELECT * FROM login WHERE username = '%s'""" %(request.form['username'])
-        mycursor.execute(query)
+        mycursor.execute("""SELECT * FROM login WHERE username = '%s'""", (request.form['username'],))
         res = mycursor.fetchall()
         if mycursor.rowcount == 0:
             return home()
@@ -46,10 +45,10 @@ def show_update_detail():
     if request.method=='POST':
         if request.form['student_id'] =='':
             return render_template("search_detail.html")
-        qry = "Select * from Student Left Join Hostel on Hostel.hostel_id = Student.hostel_id where student_id = %s" %(request.form['student_id'])
-        print(qry)
+
         not_found= False
-        mycursor.execute(qry)
+        mycursor.execute("""Select * from Student Left Join Hostel on Hostel.hostel_id = Student.hostel_id 
+                         where student_id = %s""", (request.form['student_id'],))
         res = ()
         warden_list = ()
         warden_found = False
@@ -59,24 +58,21 @@ def show_update_detail():
             not_found = True
         fields = mycursor.column_names
         if not not_found:
-            qry2 = "Select warden_name from Warden where warden_of = %s" %(res[11])
             warden_found = True
             warden_list = ()
             try:
-                mycursor.execute(qry2)
+                mycursor.execute("Select warden_name from Warden where warden_of = %s", (res[11],))
                 warden_list = mycursor.fetchall()
             except:
                 warden_found = False
-        qry_fine = "select * from Fines where student_id = %s" %(request.form['student_id'])
-        mycursor.execute(qry_fine)
+        mycursor.execute("select * from Fines where student_id = %s", (request.form['student_id'],))
         temp = mycursor.fetchone()
         fields = fields + ('fine_amount',)
         if mycursor.rowcount == 0:
             res = res + (0,)
         else:
             res = res + (temp[1],)
-        qry_upd = "Select * from Student where student_id = %s" %(request.form['student_id'])
-        mycursor.execute(qry_upd)
+        mycursor.execute("Select * from Student where student_id = %s", (request.form['student_id'],))
         upd_res = mycursor.fetchone()
         upd_not_found = False
         upd_fields = mycursor.column_names
@@ -90,8 +86,7 @@ def show_update_detail():
             if not_found:
                 return render_template('show_detail.html',res=res,fields=fields,not_found=not_found)
             else:
-                qry2 = "DELETE FROM Student where student_id = %s" %(request.form['student_id'])
-                mycursor.execute(qry2)
+                mycursor.execute("DELETE FROM Student where student_id = %s", (request.form['student_id'],))
                 mydb.commit()
                 return render_template("home.html")
         
@@ -106,8 +101,7 @@ def search_detail():
 def add_student_page():
     if not session.get('login'):
         return redirect( url_for('home') )
-    qry = "SELECT * from Student"
-    mycursor.execute(qry)
+    mycursor.execute("SELECT * from Student")
     fields = mycursor.column_names
     return render_template('add_student.html',fields = fields)
 
@@ -116,26 +110,21 @@ def add_student_page():
 def add_detail():
     if not session.get('login'):
         return redirect( url_for('home') )
-    qry = "SELECT * from Student"
-    mycursor.execute(qry)
+    mycursor.execute("SELECT * from Student")
     fields = mycursor.column_names
 
     val = ()
 
     for field in fields:
         temp = request.form.get(field)
-        if field not in ['student_id','room_no','hostel_id'] and temp != '':
-            temp = "\'"+temp+"\'"
         if temp == '':
-            temp = 'NULL'
+            temp = None
         val = val + (temp,)
 
-    qry = """INSERT INTO Student Values (%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s)"""%val
-    print(qry)
     success = True
     error = False
     try:
-        mycursor.execute(qry)
+        mycursor.execute("""INSERT INTO Student Values (%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s)""", val)
     except:
         print("Error")
         error = True
@@ -164,21 +153,16 @@ def add_room():
     fields = mycursor.column_names
 
     val = ()
-
     for field in fields:
         temp = request.form.get(field)
-        if field not in ['key_no','room_no','hostel_id'] and temp != '':
-            temp = "\'"+temp+"\'"
         if temp == '':
-            temp = 'NULL'
+            temp = None
         val = val + (temp,)
 
-    qry = "INSERT INTO Room Values (%s,%s,%s)"%val
-    print(qry)
     success = True
     error = False
     try:
-        mycursor.execute(qry)
+        mycursor.execute("INSERT INTO Room Values (%s,%s,%s)", val)
     except:
         print("Error : Room not Inserted")
         error = True
@@ -197,22 +181,16 @@ def add_furniture():
     fields = mycursor.column_names
 
     val = ()
-
     for field in fields:
         temp = request.form.get(field)
-        if field not in ['furniture_id','room_no','hostel_id'] and temp != '':
-            temp = "\'"+temp+"\'"
         if temp == '':
-            temp = 'NULL'
+            temp = None
         val = val + (temp,)
 
-    qry = "INSERT INTO Furniture Values (%s,%s,%s,%s)"%val
-
-    print(qry)
     success = True
     error = False
     try:
-        mycursor.execute(qry)
+        mycursor.execute("INSERT INTO Furniture Values (%s,%s,%s,%s)", val)
     except:
         print("Error : Furniture not Inserted")
         error = True
@@ -235,19 +213,14 @@ def add_warden():
 
     for field in fields:
         temp = request.form.get(field)
-        if field not in ['warden_of','warden_id'] and temp != '':
-            temp = "\'"+temp+"\'"
         if temp == '':
-            temp = 'NULL'
+            temp = None
         val = val + (temp,)
 
-    qry = "INSERT INTO Warden Values (%s,%s,%s,%s)"%val
-
-    print(qry)
     success = True
     error = False
     try:
-        mycursor.execute(qry)
+        mycursor.execute("INSERT INTO Warden Values (%s,%s,%s,%s)", val)
     except:
         print("Error : Warden not Inserted")
         error = True
@@ -266,22 +239,16 @@ def add_hostel():
     fields = mycursor.column_names
 
     val = ()
-
     for field in fields:
         temp = request.form.get(field)
-        if field not in ['hostel_id'] and temp != '':
-            temp = "\'"+temp+"\'"
         if temp == '':
-            temp = 'NULL'
+            temp = None
         val = val + (temp,)
 
-    qry = "INSERT INTO Hostel Values (%s,%s)"%val
-
-    print(qry)
     success = True
     error = False
     try:
-        mycursor.execute(qry)
+        mycursor.execute("INSERT INTO Hostel Values (%s,%s)", val)
     except:
         print("Error : Hostel not Inserted")
         error = True
@@ -419,16 +386,13 @@ def impose_fine():
         return redirect( url_for('home') )
     
     for student in students:
-        qry = "select fine from Fines where student_id="+str(student[0])
-        mycursor.execute(qry)
+        mycursor.execute("select fine from Fines where student_id=%s", (student[0],))
         res = mycursor.fetchall()
         if len(res)==0:
-            qry = "insert into Fines values ("+str(student[0])+","+str(finePerStu)+")"
-            mycursor.execute(qry)
+            mycursor.execute("insert into Fines values (%s,%s)",(student[0],finePerStu,))
             mydb.commit()
         else:
-            qry = "update Fines set fine="+str(res[0][0]+finePerStu)+" where student_id="+str(student[0])
-            mycursor.execute(qry)
+            mycursor.execute("update Fines set fine=%s where student_id=%s", (res[0][0]+finePerStu, student[0],))
             mydb.commit()
 
     return redirect( url_for('home') )    
@@ -450,16 +414,15 @@ def home_student():
         not_found = True
     fields = mycursor.column_names
     if not not_found:
-        qry2 = "Select warden_name from Warden where warden_of = %s" %(res[11])
         warden_found = True
         warden_list = ()
         try:
-            mycursor.execute(qry2)
+            mycursor.execute("Select warden_name from Warden where warden_of = %s", (res[11],))
             warden_list = mycursor.fetchall()
         except:
             warden_found = False
-    qry_fine = "select * from Fines where student_id = %s" %(session.get('username'))
-    mycursor.execute(qry_fine)
+
+    mycursor.execute("select * from Fines where student_id = %s", (session.get('username'),))
     temp = mycursor.fetchone()
     fields = fields + ('fine_amount',)
     if mycursor.rowcount == 0:
@@ -555,12 +518,10 @@ def contact_admin():
     username = session.get('username')
     message = request.form['message']
     
-    qry = "insert into Messages (username,message) values (\'"+username+"\',\'"+message+"\')"
-    
     success = True
     error = False
     try:
-        mycursor.execute(qry)
+        mycursor.execute("insert into Messages (username,message) values (%s,%s)", (username,message,))
     except:
         print("Error")
         error = True
@@ -586,12 +547,7 @@ def seen_message():
     if not session.get('login') or not session.get('isAdmin'):
         return redirect( url_for('home') )
 
-    print(request.form['id'])
-
-    msg_id = request.form['id']
-
-    qry = "delete from Messages where message_id=\'"+msg_id+"\'" 
-    mycursor.execute(qry)
+    mycursor.execute("delete from Messages where message_id=%s", (request.form['id'],))
     mydb.commit()
 
     return redirect(url_for('see_messages'))
