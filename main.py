@@ -3,8 +3,8 @@ import mysql.connector,hashlib
 
 mydb = mysql.connector.connect(
   host='localhost',
-  user='admin',
-  password='ifixit',
+  user='root',
+  password='',
   database = 'PROJECT'
 )
 mycursor = mydb.cursor(buffered=True)
@@ -24,7 +24,7 @@ def home():
 @app.route("/login",methods = ['GET','POST'])
 def login():
     if request.method=='POST' :
-        mycursor.execute("""SELECT * FROM login WHERE username = '%s'""", (request.form['username'],))
+        mycursor.execute("""SELECT * FROM login WHERE username = %s""", (request.form['username'],))
         res = mycursor.fetchall()
         if mycursor.rowcount == 0:
             return home()
@@ -97,17 +97,9 @@ def search_detail():
         return redirect( url_for('home') )
     return render_template('search_detail.html')
 
-@app.route("/add_student_page",methods = ['POST','GET'])
-def add_student_page():
-    if not session.get('login'):
-        return redirect( url_for('home') )
-    mycursor.execute("SELECT * from Student")
-    fields = mycursor.column_names
-    return render_template('add_student.html',fields = fields)
-
 
 @app.route("/add_student",methods = ['POST','GET'])
-def add_detail():
+def add_student():
     if not session.get('login'):
         return redirect( url_for('home') )
     mycursor.execute("SELECT * from Student")
@@ -128,10 +120,10 @@ def add_detail():
     except:
         print("Error")
         error = True
-        success = False
+        success = False 
     mydb.commit()    
     
-    return render_template('/add_student.html',fields=fields,error=error,success=success)    
+    return redirect(url_for('add_page', id='student', error=error,success=success))    
 
 
 @app.route("/add_<id>_page",methods = ['POST','GET'])
@@ -459,9 +451,8 @@ def remove_furniture():
 def del_furniture():
     if not session.get('login'):
         return redirect( url_for('home') )
-    qry = "delete from Furniture where furniture_id="+str(request.form['furniture_id'])
     try:
-        mycursor.execute(qry)
+        mycursor.execute("delete from Furniture where furniture_id=%s", (request.form['furniture_id'],))
     except:
         print("Error in deletion")
     mydb.commit()
@@ -471,9 +462,8 @@ def del_furniture():
 def del_warden():
     if not session.get('login'):
         return redirect( url_for('home') )
-    qry = "delete from Warden where warden_id="+str(request.form['warden_id'])
     try:
-        mycursor.execute(qry)
+        mycursor.execute("delete from Warden where warden_id=%s", (request.form['warden_id'],))
     except:
         print("Error in deletion")
     mydb.commit()
@@ -483,9 +473,8 @@ def del_warden():
 def del_room():
     if not session.get('login'):
         return redirect( url_for('home') )
-    qry = "delete from Room where room_id="+str(request.form['room_id'])+" and hostel_id="+str(request.form['hostel_id'])
     try:
-        mycursor.execute(qry)
+        mycursor.execute("delete from Room where room_no=%s and hostel_id=%s", (request.form['room_id'], request.form['hostel_id'],))
     except:
         print("Error in deletion")
     mydb.commit()
@@ -495,10 +484,8 @@ def del_room():
 def del_hostel():
     if not session.get('login'):
         return redirect( url_for('home') )
-    qry = "delete from Hostel where hostel_id="+str(request.form['hostel_id'])
-    print(qry)
     try:
-        mycursor.execute(qry)
+        mycursor.execute("delete from Hostel where hostel_id=%s",(request.form['hostel_id'],))
     except:
         print("Error in deletion")
     mydb.commit()
